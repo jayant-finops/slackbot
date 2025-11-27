@@ -1,13 +1,24 @@
-export default function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).send("Method Not Allowed");
+// api/slack/events.js
+export default async function handler(req, res) {
+  console.log("Incoming request:", req.method);
+
+  if (req.method === "POST") {
+    const body = req.body;
+
+    console.log("Slack body:", body);
+
+    // Slack challenge verification
+    if (body.type === "url_verification") {
+      return res.status(200).send(body.challenge);
+    }
+
+    // Log message events
+    if (body.event) {
+      console.log("Slack Event:", body.event);
+    }
+
+    return res.status(200).json({ ok: true });
   }
 
-  console.log("Incoming Slack Event:", req.body);
-
-  if (req.body?.type === "url_verification") {
-    return res.status(200).send(req.body.challenge);
-  }
-
-  return res.status(200).send("OK");
+  return res.status(200).json({ message: "Slack Event endpoint running!" });
 }
