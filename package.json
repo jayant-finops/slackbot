@@ -3,5 +3,7 @@
   "version": "1.0.0",
   "main": "api/slack/events.js",
   "type": "module",
-  "dependencies": {}
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
 }
